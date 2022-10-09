@@ -8,13 +8,6 @@
 npm install
 ```
 
-2. Compile main.ts
-
-```
-tsc main.ts
-```
-
-
 ## Usage on console
 
 1. Create and Mint an NFT
