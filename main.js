@@ -6,10 +6,12 @@ const { metaplexMint } = require("./metaplexMint");
 const { transferNft } = require("./transferToken");
 
 const NETWORK = "devnet";
+const bundlrUrl = 'https://devnet.bundlr.network';
+const bundlrProviderUrl = 'https://api.devnet.solana.com';
 
 /// summary
 /// 1. create a new NFT (create and mint)
-/// 2. transfer the NFT to another wallet
+/// 2. transfer the token to another wallet
 
 (async () => {
 
@@ -25,14 +27,24 @@ const NETWORK = "devnet";
     // Wait for airdrop confirmation
     await connection.confirmTransaction(fromAirdropSignature);
     console.log("Airdrop succeeded");
-    
+    const { Metaplex, keypairIdentity, bundlrStorage } = require("@metaplex-foundation/js");
+
+    const metaplex = Metaplex.make(connection)
+    .use(keypairIdentity(wallet))
+    .use(bundlrStorage({
+        address: bundlrUrl,
+        providerUrl: bundlrProviderUrl,
+        timeout: 60000,
+    }));
+
     // Create a new NFT
-    const nft = await metaplexMint(connection,
-        wallet,
+    const nft = await metaplexMint(metaplex,
         "Test NFT",
         "NFT",
-        "https://bafkreic3eevu2k2xto2cam6pusgr5ud3gxdg2cterxkwj6dv6bazqlcq2m.ipfs.nftstorage.link/",
-        "https://bafkreigzhszb2kkxmgjopnogqztjkj3mndoj2ulysxykwkhfkwajlawl5i.ipfs.nftstorage.link/");
+        "https://bafkreic3eevu2k2xto2cam6pusgr5ud3gxdg2cterxkwj6dv6bazqlcq2m.ipfs.nftstorage.link/",        
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
+        500 // seller fee = 5%
+        );
 
     console.log("NFT minted: ", nft.address.toString());
 

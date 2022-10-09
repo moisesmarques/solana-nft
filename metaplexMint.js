@@ -1,26 +1,25 @@
 //@ts-check
-const { Metaplex, keypairIdentity, bundlrStorage } = require("@metaplex-foundation/js");
 
-const metaplexMint = async (connection, wallet, tokenName, tokenSymbol, tokenImageUrl, tokenFileUrl) => {
-
-    const metaplex = Metaplex.make(connection)
-        .use(keypairIdentity(wallet))
-        .use(bundlrStorage({
-            address: 'https://devnet.bundlr.network',
-            providerUrl: 'https://api.devnet.solana.com',
-            timeout: 60000,
-        }));
+const metaplexMint = async (metaplex, tokenName, tokenSymbol, tokenImageUrl, tokenDescription, sellerFee = 500) => {
 
     const { uri, metadata } = await metaplex
         .nfts()
         .uploadMetadata({
             name: tokenName,
             image: tokenImageUrl,
+            symbol: tokenSymbol,
+            description: tokenDescription,
+            attributes: [
+                {
+                    trait_type: 'File',
+                    value: tokenImageUrl,
+                },
+            ],
             properties: {
                 files: [
                     {
-                        type: "model/gltf-binary",
-                        uri: tokenFileUrl,
+                        type: "image/png",
+                        uri: tokenImageUrl,
                     },
                 ]
             }
@@ -32,10 +31,10 @@ const metaplexMint = async (connection, wallet, tokenName, tokenSymbol, tokenIma
     const { nft } = await metaplex
     .nfts()
     .create({
-        uri: "https://bafkreic3eevu2k2xto2cam6pusgr5ud3gxdg2cterxkwj6dv6bazqlcq2m.ipfs.nftstorage.link/",
+        uri: uri,
         name: tokenName,
         symbol: tokenSymbol,     
-        sellerFeeBasisPoints: 0,   
+        sellerFeeBasisPoints: sellerFee,   
     })
     .run();
 
