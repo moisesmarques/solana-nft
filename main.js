@@ -42,6 +42,7 @@ const bundlrProviderUrl = 'https://api.devnet.solana.com';
         "Test NFT",
         "NFT",
         "https://bafkreic3eevu2k2xto2cam6pusgr5ud3gxdg2cterxkwj6dv6bazqlcq2m.ipfs.nftstorage.link/",        
+        "https://bafkreigzhszb2kkxmgjopnogqztjkj3mndoj2ulysxykwkhfkwajlawl5i.ipfs.nftstorage.link/",
         "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
         500 // seller fee = 5%
         );

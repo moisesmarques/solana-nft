@@ -1,6 +1,6 @@
 //@ts-check
 
-const metaplexMint = async (metaplex, tokenName, tokenSymbol, tokenImageUrl, tokenDescription, sellerFee = 500) => {
+const metaplexMint = async (metaplex, tokenName, tokenSymbol, tokenImageUrl, tokenGlbUrl, tokenDescription, sellerFee = 500) => {
 
     const { uri, metadata } = await metaplex
         .nfts()
@@ -11,8 +11,8 @@ const metaplexMint = async (metaplex, tokenName, tokenSymbol, tokenImageUrl, tok
             description: tokenDescription,
             attributes: [
                 {
-                    trait_type: 'File',
-                    value: tokenImageUrl,
+                    trait_type: 'GLB File',
+                    value: tokenGlbUrl,
                 },
             ],
             properties: {
